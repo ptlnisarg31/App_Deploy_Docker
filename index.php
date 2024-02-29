@@ -1,3 +1,3 @@
 <?php
-echo "Docker running Successfully with php";
+header("location: app/index.html");
 ?>
