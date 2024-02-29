@@ -1,3 +1,5 @@
+<?php ob_start();
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,27 +32,27 @@
     <?php
 
     //learn from w3schools.com
+    
 
-    session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='d'){
+    if (isset($_SESSION["user"])) {
+        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'd') {
             header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
+        } else {
+            $useremail = $_SESSION["user"];
         }
 
-    }else{
+    } else {
         header("location: ../login.php");
     }
-    
+
 
     //import database
     include("../connection.php");
     $userrow = $database->query("select * from doctor where docemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["docid"];
-    $username=$userfetch["docname"];
+    $userfetch = $userrow->fetch_assoc();
+    $userid = $userfetch["docid"];
+    $username = $userfetch["docname"];
 
 
     //echo $userid;
@@ -68,8 +70,8 @@
                                     <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                    <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
+                                    <p class="profile-title"><?php echo substr($username, 0, 13) ?>..</p>
+                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22) ?></p>
                                 </td>
                             </tr>
                             <tr>
@@ -126,20 +128,20 @@
                                     Today's Date
                                 </p>
                                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                                    <?php 
-                                date_default_timezone_set('Asia/Kolkata');
-        
-                                $today = date('Y-m-d');
-                                echo $today;
+                                    <?php
+                                    date_default_timezone_set('Asia/Kolkata');
+
+                                    $today = date('Y-m-d');
+                                    echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                    $patientrow = $database->query("select  * from  patient;");
+                                    $doctorrow = $database->query("select  * from  doctor;");
+                                    $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
+                                    $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
 
-                                ?>
+                                    ?>
                                 </p>
                             </td>
                             <td width="10%">
@@ -156,7 +158,7 @@
                     <tr>
                         <td >
                             <h3>Welcome!</h3>
-                            <h1><?php echo $username  ?>.</h1>
+                            <h1><?php echo $username ?>.</h1>
                             <p>Thanks for joinnig with us. We are always trying to get you a complete service<br>
                             You can view your dailly schedule, Reach Patients Appointment at home!<br><br>
                             </p>
@@ -193,7 +195,7 @@
                                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex">
                                                         <div>
                                                                 <div class="h1-dashboard">
-                                                                    <?php    echo $doctorrow->num_rows  ?>
+                                                                    <?php echo $doctorrow->num_rows ?>
                                                                 </div><br>
                                                                 <div class="h3-dashboard">
                                                                     All Doctors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -206,7 +208,7 @@
                                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;">
                                                         <div>
                                                                 <div class="h1-dashboard">
-                                                                    <?php    echo $patientrow->num_rows  ?>
+                                                                    <?php echo $patientrow->num_rows ?>
                                                                 </div><br>
                                                                 <div class="h3-dashboard">
                                                                     All Patients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -221,7 +223,7 @@
                                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex; ">
                                                         <div>
                                                                 <div class="h1-dashboard" >
-                                                                    <?php    echo $appointmentrow ->num_rows  ?>
+                                                                    <?php echo $appointmentrow->num_rows ?>
                                                                 </div><br>
                                                                 <div class="h3-dashboard" >
                                                                     NewBooking &nbsp;&nbsp;
@@ -236,7 +238,7 @@
                                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;padding-top:21px;padding-bottom:21px;">
                                                         <div>
                                                                 <div class="h1-dashboard">
-                                                                    <?php    echo $schedulerow ->num_rows  ?>
+                                                                    <?php echo $schedulerow->num_rows ?>
                                                                 </div><br>
                                                                 <div class="h3-dashboard" style="font-size: 15px">
                                                                     Today Sessions
@@ -290,12 +292,12 @@
                                         <tbody>
                                         
                                             <?php
-                                            $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
-                                                $result= $database->query($sqlmain);
-                
-                                                if($result->num_rows==0){
-                                                    echo '<tr>
+                                            $nextweek = date("Y-m-d", strtotime("+1 week"));
+                                            $sqlmain = "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                            $result = $database->query($sqlmain);
+
+                                            if ($result->num_rows == 0) {
+                                                echo '<tr>
                                                     <td colspan="4">
                                                     <br><br><br><br>
                                                     <center>
@@ -309,35 +311,34 @@
                                                     <br><br><br><br>
                                                     </td>
                                                     </tr>';
-                                                    
-                                                }
-                                                else{
-                                                for ( $x=0; $x<$result->num_rows;$x++){
-                                                    $row=$result->fetch_assoc();
-                                                    $scheduleid=$row["scheduleid"];
-                                                    $title=$row["title"];
-                                                    $docname=$row["docname"];
-                                                    $scheduledate=$row["scheduledate"];
-                                                    $scheduletime=$row["scheduletime"];
-                                                    $nop=$row["nop"];
+
+                                            } else {
+                                                for ($x = 0; $x < $result->num_rows; $x++) {
+                                                    $row = $result->fetch_assoc();
+                                                    $scheduleid = $row["scheduleid"];
+                                                    $title = $row["title"];
+                                                    $docname = $row["docname"];
+                                                    $scheduledate = $row["scheduledate"];
+                                                    $scheduletime = $row["scheduletime"];
+                                                    $nop = $row["nop"];
                                                     echo '<tr>
-                                                        <td style="padding:20px;"> &nbsp;'.
-                                                        substr($title,0,30)
-                                                        .'</td>
+                                                        <td style="padding:20px;"> &nbsp;' .
+                                                        substr($title, 0, 30)
+                                                        . '</td>
                                                         <td style="padding:20px;font-size:13px;">
-                                                        '.substr($scheduledate,0,10).'
+                                                        ' . substr($scheduledate, 0, 10) . '
                                                         </td>
                                                         <td style="text-align:center;">
-                                                            '.substr($scheduletime,0,5).'
+                                                            ' . substr($scheduletime, 0, 5) . '
                                                         </td>
 
                 
                                                        
                                                     </tr>';
-                                                    
+
                                                 }
                                             }
-                                                 
+
                                             ?>
                  
                                             </tbody>

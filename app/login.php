@@ -1,6 +1,5 @@
 <?php ob_start();
-session_start();
-?>
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +23,7 @@ session_start();
     //learn from w3schools.com
     //Unset all the server side variables
     
-    // session_start();
+    // 
     
     $_SESSION["user"] = "";
     $_SESSION["usertype"] = "";
