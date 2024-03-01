@@ -1,28 +1,36 @@
-version: '3' # docker version
+version: "3" # docker version
 services:
   www:
-    image: php:apache
+    # image: php:apache
+    build: .
+    container_name: apache_php
     volumes:
-      - "./:/var/www/html" # sync project dir with container web dir
+      - "./:/var/www/html" # Mount your project directory into the container
     ports:
-      - 80:80
-      - 443:443 # for future ssl traffid
+      - "80:80"
+      - "443:443" # If you plan to use SSL in the future
+    # entrypoint: /bin/bash -c "if [ ! -f /var/www/html/.initialized ]; then docker-php-ext-install mysqli && touch /var/www/html/.initialized; fi && apache2-foreground"
+
   db:
     image: mysql:latest
+    container_name: mysql_db
+    restart: always
     environment:
       # MYSQL_ROOT_PASSWORD: root
-      - MYSQL_DATABASE=edoc
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD= # this should live in a env var
-      - MYSQL_ALLOW_EMPTY_PASSWORD=1 # equivalent to True
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: edoc
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: ''
     volumes:
-      - "./db:/docker-entrypoint-initdb.d" # sync persistent sql files with container
+      - "./db:/docker-entrypoint-initdb.d" # If you have SQL files to initialize the database
     ports:
-      - 3306:3306
+      - "3306:3306"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
     ports:
-      - 8001:80
+      - "8001:80"
     environment:
-      - PMA_HOST=db
-      - PMA_PORT=3306
+      PMA_HOST: db
+      PMA_PORT: 3306
