@@ -1,2 +1,8 @@
-1 - Download Repository
-2- run command : docker-compose up
+### How to Get Started:
+
+1. **Download Repository**
+   
+2. **Run Command:**
+    ```bash
+    docker-compose up
+    ```
